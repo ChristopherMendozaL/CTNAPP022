@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "509212190265",
+    "project_id": "ctn-app-e7141",
+    "storage_bucket": "ctn-app-e7141.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509212190265:android:40d061e6a2bce390ec4fe8",
+        "android_client_info": {
+          "package_name": "com.infor.ctnapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509212190265-2oogc4rl4tq41mcqi8ctds8j1kcd8fg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7SweQKsogAP1yHl9dDMJlGVvZcg68CJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509212190265-2oogc4rl4tq41mcqi8ctds8j1kcd8fg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,7 +13,8 @@ class ConfigPage extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           children: [
             SettingsGroup(
-                title: 'General', children: <Widget>[buildDarkMode()]),
+                title: 'General',
+                children: <Widget>[buildDarkMode(), buildEspecialidad()]),
           ],
         ),
       ));
@@ -22,7 +23,7 @@ class ConfigPage extends StatelessWidget {
 const keyDarkMode = 'key-dark-mode';
 Widget buildDarkMode() => SwitchSettingsTile(
       settingKey: keyDarkMode,
-      leading: IconWidget(
+      leading: const IconWidget(
         icon: Icons.dark_mode,
         color: Color(0xFF642ef3),
       ),
@@ -30,7 +31,13 @@ Widget buildDarkMode() => SwitchSettingsTile(
       onChange: (_) {},
     );
 
-
+Widget buildEspecialidad() => SimpleSettingsTile(
+      leading: IconWidget(icon: Icons.question_mark, color: Colors.grey),
+      title: 'Especialidad',
+      subtitle: 'Informática, Química, Mecánica...',
+      child: Container(),
+      onTap: () {/*Noop*/},
+    );
 
 
 // Center(

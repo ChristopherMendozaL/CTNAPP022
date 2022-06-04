@@ -32,7 +32,7 @@ Widget buildDarkMode() => SwitchSettingsTile(
     );
 
 Widget buildEspecialidad() => SimpleSettingsTile(
-      leading: IconWidget(icon: Icons.question_mark, color: Colors.grey),
+      leading: const IconWidget(icon: Icons.question_mark, color: Colors.grey),
       title: 'Especialidad',
       subtitle: 'Informática, Química, Mecánica...',
       child: Container(),

@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:ctnapp/config.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';
@@ -8,9 +9,8 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  runApp(const MyApp());
-  SharedPreferences.setMockInitialValues({});
   await Settings.init(cacheProvider: SharePreferenceCache());
+  runApp(const MyApp());
 }
 
 final controller = PageController(
@@ -28,7 +28,7 @@ final pageView = PageView(
 );
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key key}) : super(key: key); //lleva ? antes de primera key
 
   static const String _title = 'Flutter Code Sample';
 
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
 //CONFIGURAR PARA CAMBIAR EL ESTADO DE LA ESPECIALIDAD
 
 class PagPrin extends StatefulWidget {
-  const PagPrin({Key? key}) : super(key: key);
+  const PagPrin({Key key}) : super(key: key);
 
   @override
   State<PagPrin> createState() => _PagPrinState();

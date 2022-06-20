@@ -32,22 +32,9 @@ Widget buildDarkMode() => SwitchSettingsTile(
     );
 
 Widget buildEspecialidad() => SimpleSettingsTile(
-      leading: const IconWidget(icon: Icons.question_mark, color: Colors.grey),
+      leading: const IconWidget(icon: Icons.question_mark, color: Colors.black),
       title: 'Especialidad',
       subtitle: 'Informática, Química, Mecánica...',
       child: Container(),
       onTap: () {/*Noop*/},
     );
-
-
-// Center(
-//         child: ElevatedButton(
-//           child: const Text('Especialidad'),
-//           onPressed: () {
-//             Navigator.push(
-//               context,
-//               MaterialPageRoute(builder: (context) => const SecondRoute()),
-//             );
-//           },
-//         ),
-//       )

@@ -28,7 +28,7 @@ final pageView = PageView(
 );
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key); //lleva ? antes de primera key
+  const MyApp({Key key}) : super(key: key);
 
   static const String _title = 'Flutter Code Sample';
 

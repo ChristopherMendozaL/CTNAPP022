@@ -1,49 +1,36 @@
+import 'package:ctnapp/icon_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
 void main() {
-  //PARA LO DE CAMBIAR SPECIALIDAD, AUN NO FUNCA
-  // runApp(ChangeNotifierProvider<ThemeNotifier>(
-  //     create: (_) => new ThemeNotifier()));
   const SecondRoute();
 }
 
 class SecondRoute extends StatelessWidget {
   const SecondRoute({Key? key}) : super(key: key);
+  static const keyEspecialidad = 'key-especialidad';
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Seleccionar Especialidad'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
-        ),
-      ),
-      body: Wrap(
-        children: <Widget>[
-          ElevatedButton.icon(
-              label: const Text('Informatica'),
-              icon: const Icon(Icons.terminal),
-              onPressed: () => {}),
-          ElevatedButton.icon(
-              label: const Text('Quimica'),
-              icon: const Icon(Icons.biotech),
-              onPressed: () => {}),
-          ElevatedButton.icon(
-              label: const Text('Electricidad'),
-              icon: const Icon(Icons.flash_on),
-              onPressed: () => {}),
-          ElevatedButton.icon(
-              label: const Text('Mecanica'),
-              icon: const Icon(Icons.question_mark),
-              onPressed: () => {}),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => SimpleSettingsTile(
+        title: 'Especialidad',
+        subtitle: 'Química, Infomática, Electromecánica',
+        leading: IconWidget(icon: Icons.question_mark, color: Colors.green),
+        child: SettingsScreen(
+            title: 'Especialidad', children: <Widget>[buildEspecialidad()]),
+      );
 }
+
+const keyEspecialidad = 'key-especialidad';
+
+Widget buildEspecialidad() => DropDownSettingsTile(
+      settingKey: keyEspecialidad,
+      title: "loool",
+      selected: 1,
+      values: <int, String>{
+        1: 'Selecciona tu especialidad',
+        2: 'Química Industrial',
+        3: 'Informática',
+        4: 'Construcciones',
+      },
+      onChange: (especialidad) {/*NOOP*/},
+    );

@@ -12,9 +12,10 @@ class ConfigPage extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            SettingsGroup(
-                title: 'General',
-                children: <Widget>[buildDarkMode(), buildEspecialidad()]),
+            SettingsGroup(title: 'General', children: <Widget>[
+              SecondRoute(),
+              buildDarkMode(),
+            ]),
           ],
         ),
       ));
@@ -29,12 +30,4 @@ Widget buildDarkMode() => SwitchSettingsTile(
       ),
       title: 'Modo Oscuro',
       onChange: (_) {},
-    );
-
-Widget buildEspecialidad() => SimpleSettingsTile(
-      leading: const IconWidget(icon: Icons.question_mark, color: Colors.black),
-      title: 'Especialidad',
-      subtitle: 'Informática, Química, Mecánica...',
-      child: Container(),
-      onTap: () {/*Noop*/},
     );

@@ -2,6 +2,7 @@
 import 'package:ctnapp/config.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';
+import 'package:ctnapp/config_tema.dart';
 
 import 'package:ctnapp/maps.dart';
 import 'package:flutter/material.dart';
@@ -42,16 +43,24 @@ class MyApp extends StatelessWidget {
               theme: isDarkMode
                   ? ThemeData.dark().copyWith(
                       primaryColor: Colors.teal,
-                      scaffoldBackgroundColor: Color(0xFF170635),
-                      canvasColor: Color(0xFF170635),
+                      scaffoldBackgroundColor: const Color(0xFF170635),
+                      canvasColor: const Color(0xFF170635),
                     )
-                  : ThemeData.light().copyWith(),
-              home: PagPrin(),
+                  : ThemeData.light().copyWith(
+                      primaryColor: Colors.teal,
+                    ),
+              home: const PagPrin(),
             ));
   }
 }
 
-//CONFIGURAR PARA CAMBIAR EL ESTADO DE LA ESPECIALIDAD
+String nose = keyEspecialidad;
+@override
+Widget build(BuildContext context) {
+  return ValueChangeObserver<Map<int, String>>(
+    cacheKey: SecondRoute.keyEspecialidad,
+  );
+}
 
 class PagPrin extends StatefulWidget {
   const PagPrin({Key key}) : super(key: key);
@@ -91,7 +100,6 @@ class _PagPrinState extends State<PagPrin> {
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: 'Configuración',
-              //hola
             ),
           ],
         ),

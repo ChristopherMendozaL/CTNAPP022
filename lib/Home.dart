@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show ByteData, rootBundle;
@@ -12,16 +14,18 @@ class calendario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SfCalendar(
-        firstDayOfWeek: 1,
-        dataSource: MeetingDataSource(_getDataSource()),
-      ),
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.teal,
+        ),
+        body: SfCalendar(
+          firstDayOfWeek: 1,
+          dataSource: MeetingDataSource(_getDataSource()),
+        ));
   }
 }
 
 Future readExcelFile(String fileName) async {
-  ByteData data = await rootBundle.load("sheets/test.xlsx");
+  ByteData data = await rootBundle.load("assets/test.xlsx");
   var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   var excel = Excel.decodeBytes(
     bytes,
@@ -96,8 +100,9 @@ List<Meeting> _getDataSource() {
   final DateTime today = DateTime.now();
   final DateTime startTime = DateTime(today.year, today.month, today.day, 8);
   final DateTime endTime = startTime.add(const Duration(hours: 2));
-  meetings
-      .add(Meeting('Mate', startTime, endTime, const Color(0xFF0F8644), false));
+  meetings.add(
+      Meeting('MATEE', startTime, endTime, const Color(0xFF0F8644), false));
+
   return meetings;
 }
 
@@ -109,7 +114,7 @@ class Home extends StatelessWidget {
         body: const calendario(),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            readExcelFile('sheets/test.xlsx');
+            readExcelFile('assets/test.xlsx');
           },
           label: const Text('Sacar Materia'),
           icon: const Icon(Icons.access_alarms_sharp),

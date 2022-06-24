@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         cacheKey: ConfigPage.KeyDarkMode,
         defaultValue: true,
         builder: (_, isDarkMode, __) => MaterialApp(
+              showPerformanceOverlay: false,
               title: _title,
               theme: isDarkMode
                   ? ThemeData.dark().copyWith(
@@ -54,13 +55,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-String nose = keyEspecialidad;
-@override
 Widget build(BuildContext context) {
   return ValueChangeObserver<Map<int, String>>(
-    cacheKey: SecondRoute.keyEspecialidad,
-  );
+      cacheKey: SecondRoute.keyEspecialidad);
 }
+
+const String espe = keyEspecialidad;
 
 class PagPrin extends StatefulWidget {
   const PagPrin({Key key}) : super(key: key);

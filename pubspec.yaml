@@ -40,19 +40,14 @@ dependencies:
   syncfusion_flutter_calendar: ^20.1.61
   excel: ^1.1.5
   flutter_settings_screens: ^0.3.3-null-safety
-
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_native_splash: ^0.2.8
+  http:
 
-flutter_native_splash: 
-  color: "#008080"
-  color_dark: "#008080"
-  image: assets/logoctn.png
-  android: true
+
 
   # flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
 
@@ -78,6 +73,9 @@ flutter:
   assets:
     - assets/test.xlsx
     - assets/logoctn.png
+    - assets/Asset 5@4x.png
+    - assets/Asset 6@4x.png
+    - assets/Asset 7.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

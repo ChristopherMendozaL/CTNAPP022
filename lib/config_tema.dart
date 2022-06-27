@@ -14,7 +14,8 @@ class SecondRoute extends StatelessWidget {
   Widget build(BuildContext context) => SimpleSettingsTile(
         title: 'Especialidad',
         subtitle: 'Química, Infomática, Electromecánica',
-        leading: IconWidget(icon: Icons.question_mark, color: Colors.green),
+        leading:
+            const IconWidget(icon: Icons.question_mark, color: Colors.green),
         child: SettingsScreen(
             title: 'Especialidad', children: <Widget>[buildEspecialidad()]),
       );
@@ -26,7 +27,7 @@ Widget buildEspecialidad() => DropDownSettingsTile(
       settingKey: keyEspecialidad,
       title: "loool",
       selected: 1,
-      values: <int, String>{
+      values: const <int, String>{
         1: 'Selecciona tu especialidad',
         2: 'Química Industrial',
         3: 'Informática',

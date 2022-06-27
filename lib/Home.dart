@@ -101,7 +101,7 @@ List<Meeting> _getDataSource() {
   final DateTime startTime = DateTime(today.year, today.month, today.day, 8);
   final DateTime endTime = startTime.add(const Duration(hours: 2));
   meetings.add(
-      Meeting('MATEE', startTime, endTime, const Color(0xFF0F8644), false));
+      Meeting('MATEE', startTime, endTime, const Color(0xFF170635), false));
 
   return meetings;
 }

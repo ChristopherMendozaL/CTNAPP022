@@ -8,7 +8,7 @@ class MapsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: const Text('Mapas'),
+        title: const Text('Mapa'),
       ),
       body: FlutterMap(
         options: MapOptions(

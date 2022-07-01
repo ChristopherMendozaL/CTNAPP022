@@ -1,47 +1,99 @@
 // ignore_for_file: avoid_print
 
 import 'dart:core';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show ByteData, rootBundle;
-import 'package:excel/excel.dart';
-import 'dart:io';
-import 'package:path/path.dart';
+import 'package:http/http.dart';
+import 'dart:convert' as convert;
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:http/http.dart' as http;
 
-class calendario extends StatelessWidget {
-  const calendario({Key? key}) : super(key: key);
+class GoogleSheetData extends StatefulWidget {
+  @override
+  LoadDataFromGoogleSheetState createState() => LoadDataFromGoogleSheetState();
+}
+
+class LoadDataFromGoogleSheetState extends State<GoogleSheetData> {
+  MeetingDataSource? events;
+  List<Color> _colorCollection = <Color>[];
+
+  @override
+  void initState() {
+    _initializeEventColor();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.teal,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+          body: SafeArea(
+              child: Container(
+        child: FutureBuilder(
+          future: getDataFromGoogleSheet(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data != null) {
+              return SafeArea(
+                  child: Container(
+                child: SfCalendar(
+                  view: CalendarView.schedule,
+                  scheduleViewSettings: ScheduleViewSettings(
+                    appointmentItemHeight: 70,
+                  ),
+                  dataSource: MeetingDataSource(snapshot.data),
+                  initialDisplayDate: snapshot.data[0].from,
+                ),
+              ));
+            } else {
+              return Container(
+                child: Center(
+                  child: Text('Loading.....'),
+                ),
+              );
+            }
+          },
         ),
-        body: SfCalendar(
-          firstDayOfWeek: 1,
-          dataSource: MeetingDataSource(_getDataSource()),
-        ));
+      ))),
+    );
   }
-}
 
-Future readExcelFile(String fileName) async {
-  ByteData data = await rootBundle.load("assets/test.xlsx");
-  var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-  var excel = Excel.decodeBytes(
-    bytes,
-  );
+  void _initializeEventColor() {
+    _colorCollection.add(const Color(0xFF0F8644));
+    _colorCollection.add(const Color(0xFF8B1FA9));
+    _colorCollection.add(const Color(0xFFD20100));
+    _colorCollection.add(const Color(0xFFFC571D));
+    _colorCollection.add(const Color(0xFF36B37B));
+    _colorCollection.add(const Color(0xFF01A1EF));
+    _colorCollection.add(const Color(0xFF3D4FB5));
+    _colorCollection.add(const Color(0xFFE47C73));
+    _colorCollection.add(const Color(0xFF636363));
+    _colorCollection.add(const Color(0xFF0A8043));
+  }
 
-  for (var table in excel.tables.keys) {
-    print(table);
-
-    print(excel.tables[table]!.maxRows);
-    print(excel.tables[table]!.maxCols);
-    for (var row in excel.tables[table]!.rows) {
-      print("$row");
+  Future<List<Meeting>> getDataFromGoogleSheet() async {
+    Response data = await http.get(
+      Uri.parse(
+          "https://script.google.com/macros/s/AKfycbyOLmP15JDq85RXzdvQ5W45LHRHYdvZqOuCE_3gHiKMI6yU2ab6C5K24F_s62otPBX4Cg/exec"),
+      //https://script.google.com/macros/s/AKfycbwG-W8x3ojt3-h5F-2IsmfdfTTdGo-bJiYF9gtBfC80KWNc7Qfv3DlApShRwYanHZia4A/exec ELLOS
+    );
+    dynamic jsonAppData = convert.jsonDecode(data.body);
+    final List<Meeting> appointmentData = [];
+    final Random random = new Random();
+    for (dynamic data in jsonAppData) {
+      Meeting meetingData = Meeting(
+        eventName: data['subject'],
+        from: _convertDateFromString(data['starttime']),
+        to: _convertDateFromString(data['endtime']),
+        background: _colorCollection[random.nextInt(9)],
+      );
+      appointmentData.add(meetingData);
     }
-    var sheet = excel[table];
-    var cell = sheet.cell(CellIndex.indexByString("B3".toString()));
-    print(cell.value);
+    return appointmentData;
+  }
+
+  DateTime _convertDateFromString(String date) {
+    return DateTime.parse(date);
   }
 }
 
@@ -52,58 +104,38 @@ class MeetingDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    return _getMeetingData(index).from;
+    return appointments![index].from;
   }
 
   @override
   DateTime getEndTime(int index) {
-    return _getMeetingData(index).to;
+    return appointments![index].to;
   }
 
   @override
   String getSubject(int index) {
-    return _getMeetingData(index).eventName;
+    return appointments![index].eventName;
   }
 
   @override
   Color getColor(int index) {
-    return _getMeetingData(index).background;
-  }
-
-  @override
-  bool isAllDay(int index) {
-    return _getMeetingData(index).isAllDay;
-  }
-
-  Meeting _getMeetingData(int index) {
-    final dynamic meeting = appointments![index];
-    late final Meeting meetingData;
-    if (meeting is Meeting) {
-      meetingData = meeting;
-    }
-
-    return meetingData;
+    return appointments![index].background;
   }
 }
 
 class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
-  String eventName;
-  DateTime from;
-  DateTime to;
-  Color background;
-  bool isAllDay;
-}
+  Meeting(
+      {this.eventName = '',
+      required this.from,
+      required this.to,
+      this.background,
+      this.isAllDay = false});
 
-List<Meeting> _getDataSource() {
-  final List<Meeting> meetings = <Meeting>[];
-  final DateTime today = DateTime.now();
-  final DateTime startTime = DateTime(today.year, today.month, today.day, 8);
-  final DateTime endTime = startTime.add(const Duration(hours: 2));
-  meetings.add(
-      Meeting('MATEE', startTime, endTime, const Color(0xFF170635), false));
-
-  return meetings;
+  String? eventName;
+  DateTime? from;
+  DateTime? to;
+  Color? background;
+  bool? isAllDay;
 }
 
 class Home extends StatelessWidget {
@@ -111,13 +143,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: const calendario(),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            readExcelFile('assets/test.xlsx');
-          },
-          label: const Text('Sacar Materia'),
-          icon: const Icon(Icons.access_alarms_sharp),
-        ),
+        body: GoogleSheetData(),
       );
 }

@@ -29,6 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
   shared_preferences: ^2.0.10
   provider: ^6.0.2
   flutter_map: ^1.1.0
@@ -37,15 +38,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   
   syncfusion_flutter_core: ^20.1.61
-  syncfusion_flutter_calendar: ^20.1.61
-  excel: ^1.1.5
+  syncfusion_flutter_calendar: ^20.2.36
+  http: ^0.13.3
   flutter_settings_screens: ^0.3.3-null-safety
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  http:
 
 
 

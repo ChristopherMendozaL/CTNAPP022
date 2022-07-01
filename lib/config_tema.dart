@@ -23,15 +23,20 @@ class SecondRoute extends StatelessWidget {
 
 const keyEspecialidad = 'key-especialidad';
 
-Widget buildEspecialidad() => DropDownSettingsTile(
+Widget buildEspecialidad() {
+  return DropDownSettingsTile(
       settingKey: keyEspecialidad,
-      title: "loool",
+      title: "Selecciona tu especialidad",
       selected: 1,
       values: const <int, String>{
-        1: 'Selecciona tu especialidad',
+        1: 'No especialidad',
         2: 'Química Industrial',
         3: 'Informática',
         4: 'Construcciones',
       },
-      onChange: (especialidad) {/*NOOP*/},
-    );
+      onChange: (especialidad) async {
+        debugPrint('key-especialidad: $especialidad');
+        String espe2 = 'key-especialidad: $especialidad';
+        debugPrint(espe2);
+      });
+}

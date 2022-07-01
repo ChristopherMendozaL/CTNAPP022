@@ -5,9 +5,7 @@ import 'package:ctnapp/config.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';
 import 'package:ctnapp/config_tema.dart';
-
 import 'package:ctnapp/maps.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,39 +13,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
   runApp(const MyApp());
-  // String espe = SecondRoute.keyEspecialidad;
-
-  // switch (espe) {
-  //   case ("1"):
-  //     {
-  //       print("Excellent");
-  //     }
-  //     break;
-
-  //   case ("2"):
-  //     {
-  //       print("Good");
-  //     }
-  //     break;
-
-  //   case ("3"):
-  //     {
-  //       print("Fair");
-  //     }
-  //     break;
-
-  //   case ("4"):
-  //     {
-  //       print("Poor");
-  //     }
-  //     break;
-
-  //   default:
-  //     {
-  //       print("Seleccione otra Especialidad");
-  //     }
-  //     break;
-  // }
+  switch (keyEspecialidad) {
+    case '2':
+      print('good');
+      break;
+    case 'key-especialidad':
+      print('mal');
+      break;
+  }
 }
 
 final controller = PageController(
@@ -90,13 +63,6 @@ class MyApp extends StatelessWidget {
             ));
   }
 }
-
-// Widget build(BuildContext context) {
-//   return ValueChangeObserver<int>(
-//       cacheKey: SecondRoute.keyEspecialidad,
-//       defaultValue: (1),
-//       builder: (_, isEspecialidad, __) => Text(isEspecialidad.toString()));
-// }
 
 class PagPrin extends StatefulWidget {
   const PagPrin({Key key}) : super(key: key);

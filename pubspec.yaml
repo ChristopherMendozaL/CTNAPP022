@@ -29,7 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+
   shared_preferences: ^2.0.10
   provider: ^6.0.2
   flutter_map: ^1.1.0
@@ -41,11 +41,14 @@ dependencies:
   syncfusion_flutter_calendar: ^20.2.36
   http: ^0.13.3
   flutter_settings_screens: ^0.3.3-null-safety
-  
+  loading_animation_widget: ^1.2.0+2
+
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
 

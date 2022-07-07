@@ -1,6 +1,8 @@
 // @dart=2.9
 // ignore_for_file: avoid_print
 
+import 'dart:html';
+
 import 'package:ctnapp/config.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';
@@ -9,6 +11,7 @@ import 'package:ctnapp/maps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
 Future<void> main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
@@ -48,6 +51,7 @@ class MyApp extends StatelessWidget {
         cacheKey: ConfigPage.KeyDarkMode,
         defaultValue: true,
         builder: (_, isDarkMode, __) => MaterialApp(
+              debugShowCheckedModeBanner: false,
               showPerformanceOverlay: false,
               title: _title,
               theme: isDarkMode

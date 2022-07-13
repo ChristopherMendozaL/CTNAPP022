@@ -2,6 +2,8 @@
 
 import 'package:ctnapp/clasespecialidad.dart';
 import 'package:ctnapp/config.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';
 import 'package:ctnapp/config_especialidad.dart';
@@ -9,6 +11,7 @@ import 'package:ctnapp/maps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -20,8 +23,12 @@ Future<void> main() async {
   Box box = await Hive.openBox('box');
   box.put('ClaseEspecialidad', ClaseEspecialidad(especialidad: 'Informatica'));
   var pogu = box.get('especialidad');
-
   print(pogu);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print(fcmToken);
 
   runApp(const MyApp());
 }
@@ -40,12 +47,21 @@ final pageView = PageView(
   ],
 );
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   static const String _title = 'Flutter Code Sample';
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return ValueChangeObserver<bool>(
         cacheKey: ConfigPage.KeyDarkMode,
@@ -53,7 +69,7 @@ class MyApp extends StatelessWidget {
         builder: (_, isDarkMode, __) => MaterialApp(
               debugShowCheckedModeBanner: false,
               showPerformanceOverlay: false,
-              title: _title,
+              title: MyApp._title,
               theme: isDarkMode
                   ? ThemeData.dark().copyWith(
                       primaryColor: Colors.teal,

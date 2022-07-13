@@ -3,7 +3,6 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'dart:html';
 import 'package:ctnapp/config.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';

@@ -1,6 +1,8 @@
 // @dart=2.9
 // ignore_for_file: avoid_print
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:ctnapp/config.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';
@@ -9,18 +11,16 @@ import 'package:ctnapp/maps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print(fcmToken);
   runApp(const MyApp());
-  switch (keyEspecialidad) {
-    case '2':
-      print('good');
-      break;
-    case 'key-especialidad':
-      print('mal');
-      break;
-  }
 }
 
 final controller = PageController(
@@ -37,19 +37,29 @@ final pageView = PageView(
   ],
 );
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
 
   static const String _title = 'Flutter Code Sample';
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return ValueChangeObserver<bool>(
         cacheKey: ConfigPage.KeyDarkMode,
         defaultValue: true,
         builder: (_, isDarkMode, __) => MaterialApp(
+              debugShowCheckedModeBanner: false,
               showPerformanceOverlay: false,
-              title: _title,
+              title: MyApp._title,
               theme: isDarkMode
                   ? ThemeData.dark().copyWith(
                       primaryColor: Colors.teal,

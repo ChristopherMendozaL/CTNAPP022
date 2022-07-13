@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:509212190265:android:40d061e6a2bce390ec4fe8",
+        "mobilesdk_app_id": "1:509212190265:android:25a30638c216fe53ec4fe8",
         "android_client_info": {
           "package_name": "com.infor.ctnapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "509212190265-laljmlngic7mn1lgdrj53qr7b6k5a0ja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.infor.ctnapp",
+            "certificate_hash": "bd37d56573153a0e07a273b76fe690ee67aa7fa7"
+          }
+        },
         {
           "client_id": "509212190265-2oogc4rl4tq41mcqi8ctds8j1kcd8fg0.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +37,13 @@
             {
               "client_id": "509212190265-2oogc4rl4tq41mcqi8ctds8j1kcd8fg0.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "509212190265-6t3uj7smj4vp735m1nj7oq7feq2o61f7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ctnapp"
+              }
             }
           ]
         }

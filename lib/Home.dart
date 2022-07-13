@@ -4,18 +4,22 @@ import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:convert' as convert;
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_core/theme.dart';
 
 class GoogleSheetData extends StatefulWidget {
+  const GoogleSheetData({Key? key}) : super(key: key);
+
   @override
   LoadDataFromGoogleSheetState createState() => LoadDataFromGoogleSheetState();
 }
 
 class LoadDataFromGoogleSheetState extends State<GoogleSheetData> {
   MeetingDataSource? events;
-  List<Color> _colorCollection = <Color>[];
+  final List<Color> _colorCollection = <Color>[];
 
   @override
   void initState() {
@@ -29,31 +33,35 @@ class LoadDataFromGoogleSheetState extends State<GoogleSheetData> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           body: SafeArea(
-              child: Container(
-        child: FutureBuilder(
-          future: getDataFromGoogleSheet(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data != null) {
-              return SafeArea(
-                  child: Container(
+              child: FutureBuilder(
+        future: getDataFromGoogleSheet(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data != null) {
+            return SafeArea(
                 child: SfCalendar(
-                  view: CalendarView.schedule,
-                  scheduleViewSettings: ScheduleViewSettings(
-                    appointmentItemHeight: 70,
-                  ),
-                  dataSource: MeetingDataSource(snapshot.data),
-                  initialDisplayDate: snapshot.data[0].from,
-                ),
-              ));
-            } else {
-              return Container(
-                child: Center(
-                  child: Text('Loading.....'),
-                ),
-              );
-            }
-          },
-        ),
+              monthViewSettings: MonthViewSettings(showAgenda: true),
+              view: CalendarView.schedule,
+              allowedViews: [
+                CalendarView.schedule,
+                CalendarView.month,
+              ],
+              todayHighlightColor: Colors.teal,
+              scheduleViewSettings: const ScheduleViewSettings(
+                  appointmentItemHeight: 70,
+                  hideEmptyScheduleWeek: true,
+                  monthHeaderSettings: MonthHeaderSettings(
+                    height: 0,
+                  )),
+              dataSource: MeetingDataSource(snapshot.data),
+              initialDisplayDate: snapshot.data[0].from,
+            ));
+          } else {
+            return Center(
+              child: LoadingAnimationWidget.stretchedDots(
+                  color: Colors.grey, size: 35),
+            );
+          }
+        },
       ))),
     );
   }
@@ -75,17 +83,20 @@ class LoadDataFromGoogleSheetState extends State<GoogleSheetData> {
     Response data = await http.get(
       Uri.parse(
           "https://script.google.com/macros/s/AKfycbyOLmP15JDq85RXzdvQ5W45LHRHYdvZqOuCE_3gHiKMI6yU2ab6C5K24F_s62otPBX4Cg/exec"),
-      //https://script.google.com/macros/s/AKfycbwG-W8x3ojt3-h5F-2IsmfdfTTdGo-bJiYF9gtBfC80KWNc7Qfv3DlApShRwYanHZia4A/exec ELLOS
     );
+
     dynamic jsonAppData = convert.jsonDecode(data.body);
     final List<Meeting> appointmentData = [];
-    final Random random = new Random();
+    final Random random = Random();
+
     for (dynamic data in jsonAppData) {
+      var pog = data['byday'];
       Meeting meetingData = Meeting(
         eventName: data['subject'],
         from: _convertDateFromString(data['starttime']),
         to: _convertDateFromString(data['endtime']),
         background: _colorCollection[random.nextInt(9)],
+        recurrenceRule: 'FREQ=DAILY;INTERVAL=7;BYDAY:$pog;COUNT=10',
       );
       appointmentData.add(meetingData);
     }
@@ -121,6 +132,11 @@ class MeetingDataSource extends CalendarDataSource {
   Color getColor(int index) {
     return appointments![index].background;
   }
+
+  @override
+  String getRecurrenceRule(int index) {
+    return appointments![index].recurrenceRule;
+  }
 }
 
 class Meeting {
@@ -128,12 +144,14 @@ class Meeting {
       {this.eventName = '',
       required this.from,
       required this.to,
+      this.recurrenceRule,
       this.background,
       this.isAllDay = false});
 
   String? eventName;
   DateTime? from;
   DateTime? to;
+  String? recurrenceRule;
   Color? background;
   bool? isAllDay;
 }
@@ -142,7 +160,26 @@ class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => const Scaffold(
         body: GoogleSheetData(),
       );
+}
+
+//THEME DEL CALENDAR, NOSE SI PONER ACA O EN EL CONFIG, VER DESPUES
+class ThemeInCalendar extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => CalendarThemeState();
+}
+
+class CalendarThemeState extends State<ThemeInCalendar> {
+  @override
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+            child: SfCalendarTheme(
+                data: SfCalendarThemeData(
+                    brightness: Brightness.dark, backgroundColor: Colors.grey),
+                child: SafeArea(child: SfCalendar()))));
+  }
 }

@@ -3,6 +3,7 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'dart:html';
 import 'package:ctnapp/config.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
 Future<void> main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());

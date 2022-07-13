@@ -1,29 +1,29 @@
-// @dart=2.9
 // ignore_for_file: avoid_print
 
-import 'dart:html';
-
+import 'package:ctnapp/clasespecialidad.dart';
 import 'package:ctnapp/config.dart';
 import 'package:ctnapp/Buscar.dart';
 import 'package:ctnapp/Home.dart';
-import 'package:ctnapp/config_tema.dart';
+import 'package:ctnapp/config_especialidad.dart';
 import 'package:ctnapp/maps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+late Box box;
 Future<void> main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
+  await Hive.initFlutter();
+  Hive.registerAdapter(ClaseEspecialidadAdapter());
+  Box box = await Hive.openBox('box');
+  box.put('ClaseEspecialidad', ClaseEspecialidad(especialidad: 'Informatica'));
+  var pogu = box.get('especialidad');
+
+  print(pogu);
+
   runApp(const MyApp());
-  switch (keyEspecialidad) {
-    case '2':
-      print('good');
-      break;
-    case 'key-especialidad':
-      print('mal');
-      break;
-  }
 }
 
 final controller = PageController(
@@ -41,7 +41,7 @@ final pageView = PageView(
 );
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   static const String _title = 'Flutter Code Sample';
 
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
 }
 
 class PagPrin extends StatefulWidget {
-  const PagPrin({Key key}) : super(key: key);
+  const PagPrin({Key? key}) : super(key: key);
 
   @override
   State<PagPrin> createState() => _PagPrinState();

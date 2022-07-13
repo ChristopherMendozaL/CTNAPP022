@@ -9,6 +9,8 @@ import 'dart:convert' as convert;
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class GoogleSheetData extends StatefulWidget {
   const GoogleSheetData({Key? key}) : super(key: key);
@@ -39,9 +41,9 @@ class LoadDataFromGoogleSheetState extends State<GoogleSheetData> {
           if (snapshot.data != null) {
             return SafeArea(
                 child: SfCalendar(
-              monthViewSettings: MonthViewSettings(showAgenda: true),
+              monthViewSettings: const MonthViewSettings(showAgenda: true),
               view: CalendarView.schedule,
-              allowedViews: [
+              allowedViews: const [
                 CalendarView.schedule,
                 CalendarView.month,
               ],
@@ -163,23 +165,4 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) => const Scaffold(
         body: GoogleSheetData(),
       );
-}
-
-//THEME DEL CALENDAR, NOSE SI PONER ACA O EN EL CONFIG, VER DESPUES
-class ThemeInCalendar extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => CalendarThemeState();
-}
-
-class CalendarThemeState extends State<ThemeInCalendar> {
-  @override
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            child: SfCalendarTheme(
-                data: SfCalendarThemeData(
-                    brightness: Brightness.dark, backgroundColor: Colors.grey),
-                child: SafeArea(child: SfCalendar()))));
-  }
 }

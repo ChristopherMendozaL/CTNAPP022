@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
-import 'config_tema.dart';
+import 'config_especialidad.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'icon_widget.dart';
 

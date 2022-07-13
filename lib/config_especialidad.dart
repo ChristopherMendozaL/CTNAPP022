@@ -2,6 +2,7 @@ import 'package:ctnapp/icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
+
 void main() {
   const SecondRoute();
 }
@@ -21,8 +22,10 @@ class SecondRoute extends StatelessWidget {
       );
 }
 
-const keyEspecialidad = 'key-especialidad';
 
+
+
+const keyEspecialidad = 'key-especialidad';
 Widget buildEspecialidad() {
   return DropDownSettingsTile(
       settingKey: keyEspecialidad,
@@ -35,8 +38,6 @@ Widget buildEspecialidad() {
         4: 'Construcciones',
       },
       onChange: (especialidad) async {
-        debugPrint('key-especialidad: $especialidad');
-        String espe2 = 'key-especialidad: $especialidad';
-        debugPrint(espe2);
+        debugPrint('$especialidad');
       });
 }

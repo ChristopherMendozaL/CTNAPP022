@@ -1,45 +1,89 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
-class MapsPage extends StatelessWidget {
-  const MapsPage({Key? key}) : super(key: key);
+class MapsDemo extends StatefulWidget {
+  static const String ACCESS_TOKEN =
+      "pk.eyJ1IjoiZ2Vyb29vMDAiLCJhIjoiY2w1bXBndXJiMGNqNTNrbnY2c2JvanZwOCJ9.yL4LJA1nTn35lgfdSFHi8Q";
+
+  const MapsDemo({Key? key}) : super(key: key);
+  @override
+  State<MapsDemo> createState() => _MapsDemoState();
+}
+
+class _MapsDemoState extends State<MapsDemo> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: const Text('Mapa'),
-      ),
-      body: FlutterMap(
-        options: MapOptions(
-          center: LatLng(-27.311871, -55.895330),
-          zoom: 17.0,
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+abstract class ExamplePage extends StatelessWidget {
+  const ExamplePage(this.leading, this.title);
+
+  final Widget leading;
+  final String title;
+}
+
+class FullMapPage extends ExamplePage {
+  const FullMapPage() : super(const Icon(Icons.map), 'Full screen map');
+
+  @override
+  Widget build(BuildContext context) {
+    return const FullMap();
+  }
+}
+
+class FullMap extends StatefulWidget {
+  const FullMap();
+
+  @override
+  State createState() => FullMapState();
+}
+
+class FullMapState extends State<FullMap> {
+  MapboxMapController? mapController;
+  var isLight = true;
+
+  _onMapCreated(MapboxMapController controller) {
+    mapController = controller;
+  }
+
+  _onStyleLoadedCallback() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text("Style loaded :)"),
+      backgroundColor: Theme.of(context).primaryColor,
+      duration: const Duration(seconds: 1),
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: FloatingActionButton(
+            child: const Icon(Icons.swap_horiz),
+            onPressed: () => setState(
+              () => isLight = !isLight,
+            ),
+          ),
         ),
-        layers: [
-          TileLayerOptions(
-              urlTemplate:
-                  "https://api.mapbox.com/styles/v1/gerooo00/cl3xco6zz001214mg7qo8um0u/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZ2Vyb29vMDAiLCJhIjoiY2wzeGNlc3hwMDFhYzNqbWgycmtnb24wayJ9.WKhyisqZ3GuXE1xDQkvIRA",
-              additionalOptions: {
-                'accessToken':
-                    'pk.eyJ1IjoiZ2Vyb29vMDAiLCJhIjoiY2wzeGNlc3hwMDFhYzNqbWgycmtnb24wayJ9.WKhyisqZ3GuXE1xDQkvIRA',
-                'id': 'mapbox.mapbox-streets-v8'
-              }),
-          MarkerLayerOptions(
-            markers: [
-              Marker(
-                width: 80.0,
-                height: 80.0,
-                point: LatLng(-27.3, -55.8),
-                builder: (ctx) => Container(),
-              ),
-            ],
+        body: MapboxMap(
+          styleString: isLight ? MapboxStyles.LIGHT : MapboxStyles.DARK,
+          accessToken: MapsDemo.ACCESS_TOKEN,
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(-27.311822, -55.895227),
+            zoom: 16.5,
           ),
-        ],
-        nonRotatedChildren: [
-          AttributionWidget.defaultWidget(
-            source: 'OpenStreetMap contributors',
-            onSourceTapped: () {},
-          ),
-        ],
-      ));
+          onStyleLoadedCallback: _onStyleLoadedCallback,
+        ));
+  }
 }

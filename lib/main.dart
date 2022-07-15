@@ -41,7 +41,7 @@ final pageView = PageView(
   controller: controller,
   children: const [
     Home(),
-    MapsPage(),
+    FullMapPage(),
     Search(),
     ConfigPage(),
   ],
@@ -50,7 +50,7 @@ final pageView = PageView(
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'CTN app';
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -95,7 +95,7 @@ class _PagPrinState extends State<PagPrin> {
   int currentIndex = 0;
   final screens = [
     const Home(),
-    const MapsPage(),
+    const FullMapPage(),
     const Search(),
     const ConfigPage(),
   ];

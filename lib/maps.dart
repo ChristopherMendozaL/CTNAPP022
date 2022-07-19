@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -76,12 +78,13 @@ class FullMapState extends State<FullMap> {
           ),
         ),
         body: MapboxMap(
-          styleString: isLight ? MapboxStyles.LIGHT : MapboxStyles.DARK,
+          styleString: "mapbox://styles/gerooo00/cl3xco6zz001214mg7qo8um0u",
           accessToken: MapsDemo.ACCESS_TOKEN,
           onMapCreated: _onMapCreated,
           initialCameraPosition: const CameraPosition(
             target: LatLng(-27.311822, -55.895227),
             zoom: 16.5,
+            tilt: 90,
           ),
           onStyleLoadedCallback: _onStyleLoadedCallback,
         ));

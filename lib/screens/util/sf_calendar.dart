@@ -1,16 +1,17 @@
-// ignore_for_file: avoid_print
-
+import 'package:flutter/material.dart';
 import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'dart:convert' as convert;
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 class GoogleSheetData extends StatefulWidget {
   const GoogleSheetData({Key? key}) : super(key: key);
@@ -32,39 +33,87 @@ class LoadDataFromGoogleSheetState extends State<GoogleSheetData> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
+      //Seleccion de idioma para el calendario
+      localizationsDelegates: const [
+        SfGlobalLocalizations.delegate
+        ],
+      supportedLocales: const [
+        Locale('es'),
+      ],
+        locale: const Locale('es'),
       debugShowCheckedModeBanner: false,
+
       home: Scaffold(
-          body: SafeArea(
-              child: FutureBuilder(
+        backgroundColor: Colors.grey.shade300,
+          body: FutureBuilder(
         future: getDataFromGoogleSheet(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data != null) {
-            return SafeArea(
-                child: SfCalendar(
-              monthViewSettings: const MonthViewSettings(showAgenda: true),
-              view: CalendarView.schedule,
-              allowedViews: const [
-                CalendarView.schedule,
-                CalendarView.month,
-              ],
-              todayHighlightColor: Colors.teal,
-              scheduleViewSettings: const ScheduleViewSettings(
-                  appointmentItemHeight: 70,
-                  hideEmptyScheduleWeek: true,
-                  monthHeaderSettings: MonthHeaderSettings(
-                    height: 0,
-                  )),
-              dataSource: MeetingDataSource(snapshot.data),
-              initialDisplayDate: snapshot.data[0].from,
-            ));
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: SfCalendar(
+                view: CalendarView.schedule,
+                allowViewNavigation: true,
+                showDatePickerButton: true,
+                viewNavigationMode: ViewNavigationMode.snap,
+                timeSlotViewSettings: const TimeSlotViewSettings(
+                  startHour: 7,
+                  endHour: 19,
+                ),
+
+                headerDateFormat: 'MMMM y',
+                headerStyle: CalendarHeaderStyle(
+                    textAlign: TextAlign.left,
+                    textStyle: GoogleFonts.roboto(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.grey.shade400,
+                    )
+                ),
+
+                allowedViews: const [
+                    CalendarView.schedule,
+                    CalendarView.day,
+                    CalendarView.month
+                ],
+                todayHighlightColor: Colors.blue.shade500,
+                
+                
+
+
+
+                scheduleViewSettings:  ScheduleViewSettings(
+                      dayHeaderSettings: DayHeaderSettings(
+                        dayTextStyle: GoogleFonts.roboto(
+                          fontSize: 20,
+                          color: Colors.grey.shade400,
+                          fontWeight: FontWeight.w600,
+                        ),
+
+                        dateTextStyle: GoogleFonts.roboto(
+                          fontSize: 16,
+                          color: Colors.grey.shade400,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ),
+
+                      appointmentItemHeight: 70,
+                      hideEmptyScheduleWeek: true,
+                      monthHeaderSettings: const MonthHeaderSettings(
+                        height: 0,
+                      )),
+                dataSource: MeetingDataSource(snapshot.data),
+                initialDisplayDate: snapshot.data[0].from,
+              ),
+            );
           } else {
             return Center(
-              child: LoadingAnimationWidget.stretchedDots(
-                  color: Colors.grey, size: 35),
+          child: Lottie.asset('lib/anim/51941-offline.json')
             );
           }
         },
-      ))),
+      )),
     );
   }
 
@@ -166,3 +215,34 @@ class Home extends StatelessWidget {
         body: GoogleSheetData(),
       );
 }
+
+
+
+// class MyCalendar extends StatefulWidget {
+//   const MyCalendar({Key? key}) : super(key: key);
+
+//   @override
+//   State<MyCalendar> createState() => _MyCalendarState();
+// }
+
+// class _MyCalendarState extends State<MyCalendar> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 25.0),
+//       child: Scaffold(
+//         backgroundColor: Colors.blue.shade100,
+//         body: Center(
+//           child: Container(
+//             width: 50,
+//             height: 50,
+//             decoration: BoxDecoration(
+//               color: Colors.amber.shade300,
+//               borderRadius: BorderRadius.circular(10)
+//             ),
+//           ),
+//         ),
+//         ),
+//     );
+//   }
+// }

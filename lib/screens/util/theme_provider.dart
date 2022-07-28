@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'config_especialidad.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'icon_widget.dart';
+import '../../icon_widget.dart';
 
 class ConfigPage extends StatelessWidget {
   const ConfigPage({Key? key}) : super(key: key);
@@ -14,13 +12,14 @@ class ConfigPage extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           children: [
             SettingsGroup(title: 'General', children: <Widget>[
-              SecondRoute(),
               buildDarkMode(),
             ]),
           ],
         ),
       ));
 }
+
+
 
 const keyDarkMode = 'key-dark-mode';
 Widget buildDarkMode() => SwitchSettingsTile(
